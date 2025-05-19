@@ -1,15 +1,19 @@
-from typing import Any, Dict
+import os
 
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.models.models import DistributionType, NumberList
-from src.utils.stats.index import Bernoulli, CentralTendency, Dispersion, Distribution
+from src.utils.stats.index import CentralTendency, Dispersion, Distribution
 
+load_dotenv()
 app = FastAPI()
+
+NEXT_URL = os.getenv("NEXT_URL")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://next-math-eta.vercel.app"],
+    allow_origins=[NEXT_URL] if NEXT_URL else [],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
