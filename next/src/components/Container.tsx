@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React, { PropsWithChildren, ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 interface Props {
   className?: string;

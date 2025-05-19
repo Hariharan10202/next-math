@@ -88,7 +88,7 @@ function ChartLayout() {
     }
     form.reset(defaultValuesMap[selected] ?? {});
     calculateDistribution(defaultValuesMap[selected] ?? {});
-  }, [selected]);
+  }, [selected, calculateDistribution, form]);
 
   const renderSelectedComponent = () => {
     switch (selected) {

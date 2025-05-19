@@ -5,7 +5,6 @@ import {
   BinomialSchema,
   NormalSchema,
   NumberListSchema,
-  PoissonSchema,
 } from "@/schemas/root";
 import axios from "axios";
 
@@ -90,7 +89,7 @@ export const getDispersion = async (data: NumberListSchema) => {
 };
 
 export const getDistribution = async (
-  data: BernoulliSchema | BinomialSchema | NormalSchema | PoissonSchema
+  data: BernoulliSchema | BinomialSchema | NormalSchema
 ) => {
   console.log(data);
   const response = await axios({

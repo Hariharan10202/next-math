@@ -46,17 +46,6 @@ const mergeData = (
 const NormalDistributionChart = ({ result }: NormalChartProps) => {
   const [chartHeight, setChartHeight] = useState(500);
 
-  if (
-    !result?.histogram ||
-    !result?.pdf_curve ||
-    result.histogram.length === 0 ||
-    result.pdf_curve.length === 0
-  ) {
-    return <div>No data to display</div>;
-  }
-
-  const chartData = mergeData(result.histogram, result.pdf_curve);
-
   useEffect(() => {
     const updateSize = () => {
       if (window.innerWidth < 640) {
@@ -71,47 +60,54 @@ const NormalDistributionChart = ({ result }: NormalChartProps) => {
     return () => window.removeEventListener("resize", updateSize);
   }, []);
 
+  const chartData = mergeData(result.histogram, result.pdf_curve);
+
+  const hasData =
+    result?.histogram?.length > 0 && result?.pdf_curve?.length > 0;
+
   return (
     <div>
       <h2>Normal Distribution of Test Scores</h2>
-
-      <ResponsiveContainer width="100%" height={chartHeight}>
-        <ComposedChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="x"
-            type="number"
-            domain={["dataMin", "dataMax"]}
-            label={{
-              value: "Test Score",
-              position: "insideBottom",
-              offset: -5,
-            }}
-          />
-          <YAxis
-            label={{ value: "Density", angle: -90, position: "insideLeft" }}
-            allowDecimals={true}
-          />
-          <Tooltip />
-          <Legend verticalAlign="top" height={36} />
-          <Bar
-            dataKey="histogram"
-            fill="#8884d8"
-            name="Histogram"
-            barSize={20}
-          />
-          <Line
-            dataKey="pdf"
-            stroke="#ff7300"
-            strokeWidth={2}
-            dot={false}
-            name="Normal Curve"
-            type="monotone"
-          />
-        </ComposedChart>
-      </ResponsiveContainer>
+      {hasData ? (
+        <ResponsiveContainer width="100%" height={chartHeight}>
+          <ComposedChart data={chartData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="x"
+              type="number"
+              domain={["dataMin", "dataMax"]}
+              label={{
+                value: "Test Score",
+                position: "insideBottom",
+                offset: -5,
+              }}
+            />
+            <YAxis
+              label={{ value: "Density", angle: -90, position: "insideLeft" }}
+              allowDecimals={true}
+            />
+            <Tooltip />
+            <Legend verticalAlign="top" height={36} />
+            <Bar
+              dataKey="histogram"
+              fill="#8884d8"
+              name="Histogram"
+              barSize={20}
+            />
+            <Line
+              dataKey="pdf"
+              stroke="#ff7300"
+              strokeWidth={2}
+              dot={false}
+              name="Normal Curve"
+              type="monotone"
+            />
+          </ComposedChart>
+        </ResponsiveContainer>
+      ) : (
+        <div>No data to display</div>
+      )}
     </div>
   );
 };
-
 export default NormalDistributionChart;
