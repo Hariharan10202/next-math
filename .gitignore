@@ -1,0 +1,56 @@
+# === Frontend: Next.js (inside next/) ===
+next/node_modules/
+next/.next/
+next/out/
+next/dist/
+next/.env.local
+next/.env.development.local
+next/.env.test.local
+next/.env.production.local
+next/npm-debug.log*
+next/yarn-debug.log*
+next/yarn-error.log*
+next/package-lock.json
+next/pnpm-lock.yaml
+
+# === Backend: Python + FastAPI (inside python/) ===
+python/__pycache__/
+python/*.py[cod]
+python/*.so
+python/*.egg
+python/*.egg-info/
+python/*.pyd
+python/*.pyo
+python/*.pkl
+python/*.sqlite3
+python/*.db
+python/*.log
+python/.env
+python/venv/
+python/env/
+python/ENV/
+python/.venv/
+
+# === OS / Editor / IDE ===
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === Tests / Coverage ===
+python/.coverage
+python/htmlcov/
+python/.cache/
+python/.pytest_cache/
+python/nosetests.xml
+python/coverage.xml
+python/*.cover
+
+# === Misc ===
+*.log
+*.bak
+*.pid
+*.tar
+*.backup
