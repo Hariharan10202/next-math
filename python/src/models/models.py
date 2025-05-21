@@ -60,7 +60,13 @@ class NormalType(BaseModel):
     density: bool
 
 
+class PoissonType(BaseModel):
+    distribution_type: Literal["poisson"]
+    average: float
+    size: int
+
+
 DistributionType = Annotated[
-    Union[BernoulliType, BinomialType, NormalType],
+    Union[BernoulliType, BinomialType, NormalType, PoissonType],
     Field(discriminator="distribution_type"),
 ]

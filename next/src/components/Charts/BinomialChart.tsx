@@ -40,7 +40,7 @@ export default function BinomialChart({ result }: BarChartProps) {
     // Adjust height based on screen size
     const updateSize = () => {
       if (window.innerWidth < 640) {
-        setChartHeight(300);
+        setChartHeight(400);
       } else {
         setChartHeight(500);
       }
@@ -52,7 +52,10 @@ export default function BinomialChart({ result }: BarChartProps) {
   }, []);
 
   return (
-    <div className="w-full max-w-full px-2">
+    <div>
+      <div className="p-4 sm:p-8">
+        <h2>Binomial Distribution</h2>
+      </div>
       <ResponsiveContainer width="100%" height={chartHeight}>
         <BarChart
           data={transformedData}
@@ -67,7 +70,7 @@ export default function BinomialChart({ result }: BarChartProps) {
             label={{
               value: "n Trials",
               position: "insideBottom",
-              offset: -5,
+              offset: 0,
               style: { fontSize: 12 },
             }}
           />

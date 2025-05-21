@@ -31,28 +31,28 @@ def read_root(data: NumberList):
     result = CentralTendency(data.numbers)
     mean = result.getMean()
     print(mean)
-    return {"result": mean}
+    return mean
 
 
 @app.post("/api/stats/find-median")
 def read_root(data: NumberList):
     result = CentralTendency(data.numbers)
     median = result.getMedian()
-    return {"result": median}
+    return median
 
 
 @app.post("/api/stats/find-mode")
 def read_root(data: NumberList):
     result = CentralTendency(data.numbers)
     mode = result.getMode()
-    return {"result": mode}
+    return mode
 
 
 @app.post("/api/stats/find-central-tendency")
 def read_root(data: NumberList):
     result = CentralTendency(data.numbers)
     data = result.getCentralTendency()
-    return {"result": data}
+    return data
 
 
 # Dispersion
@@ -63,28 +63,28 @@ def read_root(data: NumberList):
     print(data)
     result = Dispersion(data.numbers)
     rang = result.getRange()
-    return {"result": rang}
+    return rang
 
 
 @app.post("/api/stats/find-variance")
 def read_root(data: NumberList):
     result = Dispersion(data.numbers)
     variance = result.getVariance()
-    return {"result": variance}
+    return variance
 
 
 @app.post("/api/stats/find-standard-deviation")
 def read_root(data: NumberList):
     result = Dispersion(data.numbers)
     std = result.getStd()
-    return {"result": std}
+    return std
 
 
 @app.post("/api/stats/find-dispersion")
 def read_root(data: NumberList):
     result = Dispersion(data.numbers)
     data = result.getDispersion()
-    return {"result": data}
+    return data
 
 
 # Distribution
@@ -93,7 +93,7 @@ def read_root(data: DistributionType):
     print("root", data)
     dist = Distribution(data)
     result = dist.sample()
-    return {"result": result}
+    return result
 
 
 # @app.post("/api/utils/generate/random")

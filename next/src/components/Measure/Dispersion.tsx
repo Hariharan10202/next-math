@@ -36,10 +36,6 @@ const Dispersion = () => {
   });
 
   function onSubmit(values: NumberListSchema) {
-    const parsedNumbers = values.numbers
-      .split(",")
-      .map((n) => Number(n.trim()));
-    console.log("Parsed numbers:", parsedNumbers);
     calculateDispersion(values);
   }
 
@@ -56,16 +52,18 @@ const Dispersion = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Measure of Dispersion</FormLabel>
-                <FormControl>
-                  <Textarea placeholder="e.g. 1, 2, 3, 4" {...field} />
-                </FormControl>
-                <FormMessage />
+                <div className="relative">
+                  <FormControl>
+                    <Textarea placeholder="e.g. 1, 2, 3, 4" {...field} />
+                  </FormControl>
+                  <FormMessage className="absolute -bottom-[25px]" />
+                </div>
               </FormItem>
             )}
           />
 
           <div className="flex items-center gap-x-2 w-full justify-start flex-wrap gap-3">
-            <Button type="submit" className="w-full sm:w-auto">
+            <Button type="submit" className="w-full sm:w-auto mt-2">
               Calculate
             </Button>
           </div>
@@ -73,11 +71,13 @@ const Dispersion = () => {
       </Form>
 
       <div className="w-full flex justify-center mt-6">
-        <OutputScreen
-          data={dispersion?.result}
-          isLoading={isPending}
-          isError={isError}
-        />
+        {(dispersion || isError || isPending) && (
+          <OutputScreen
+            data={dispersion}
+            isLoading={isPending}
+            isError={isError}
+          />
+        )}
       </div>
     </div>
   );

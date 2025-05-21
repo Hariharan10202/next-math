@@ -36,12 +36,10 @@ const CentralTendency = () => {
   });
 
   function onSubmit(values: NumberListSchema) {
-    const parsedNumbers = values.numbers
-      .split(",")
-      .map((n) => Number(n.trim()));
-    console.log("Parsed numbers:", parsedNumbers);
     calculateMean(values);
   }
+
+  console.log(centralTendency);
 
   return (
     <div className="text-black w-full flex flex-col items-center mx-auto">
@@ -56,16 +54,18 @@ const CentralTendency = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Central Tendency</FormLabel>
-                <FormControl>
-                  <Textarea placeholder="e.g. 1, 2, 3, 4" {...field} />
-                </FormControl>
-                <FormMessage />
+                <div className="relative">
+                  <FormControl>
+                    <Textarea placeholder="e.g. 1, 2, 3, 4" {...field} />
+                  </FormControl>
+                  <FormMessage className="absolute -bottom-[25px]" />
+                </div>
               </FormItem>
             )}
           />
 
           <div className="flex items-center gap-x-2 w-full justify-start flex-wrap gap-3">
-            <Button type="submit" className="w-full sm:w-auto">
+            <Button type="submit" className="w-full sm:w-auto mt-2">
               Calculate
             </Button>
           </div>
@@ -73,11 +73,13 @@ const CentralTendency = () => {
       </Form>
 
       <div className="w-full flex justify-center mt-6">
-        <OutputScreen
-          data={centralTendency?.result}
-          isLoading={isPending}
-          isError={isError}
-        />
+        {(centralTendency || isError || isPending) && (
+          <OutputScreen
+            data={centralTendency}
+            isLoading={isPending}
+            isError={isError}
+          />
+        )}
       </div>
     </div>
   );

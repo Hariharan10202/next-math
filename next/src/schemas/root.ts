@@ -81,14 +81,30 @@ export const normalSchema = z.object({
   distribution_type: z.literal("normal"),
 });
 
+export const poissonSchema = z.object({
+  average: z.coerce.number({
+    invalid_type_error: "average must be a number",
+    required_error: "average is required",
+  }),
+  size: z.coerce
+    .number({
+      invalid_type_error: "Size must be a number",
+      required_error: "Size is required",
+    })
+    .gt(5, "Size must be greater than 5"),
+  distribution_type: z.literal("poisson"),
+});
+
 export const distributionSchema = z.discriminatedUnion("distribution_type", [
   bernoulliSchema,
   binomialSchema,
   normalSchema,
+  poissonSchema,
 ]);
 
 export type NumberListSchema = z.infer<typeof numberListSchema>;
 export type BernoulliSchema = z.infer<typeof bernoulliSchema>;
 export type BinomialSchema = z.infer<typeof binomialSchema>;
 export type NormalSchema = z.infer<typeof normalSchema>;
+export type PoissonSchema = z.infer<typeof poissonSchema>;
 export type DistributionSchema = z.infer<typeof distributionSchema>;

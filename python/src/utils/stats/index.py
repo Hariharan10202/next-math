@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.stats import bernoulli, binom, mode, norm
+from scipy.stats import bernoulli, binom, mode, norm, poisson
 
 
 class CentralTendency:
@@ -141,7 +141,27 @@ class Normal:
             "histogram": histogram,
             "pdf_curve": pdf_curve,
         }
-        return {"data": scores.tolist()}
+
+
+class Poisson:
+    def __init__(self, average, size):
+        self.mu = average
+        self.size = size
+
+    def sample(self):
+        simulated_values = poisson.rvs(mu=self.mu, size=self.size)
+        max_k = max(simulated_values.max(), int(poisson.ppf(0.999, mu=self.mu)))
+
+        bins = np.arange(-0.5, max_k + 1.5, 1)
+        histogram, _ = np.histogram(simulated_values, bins=bins)
+        x = np.arange(0, max_k + 1)
+        pmf_scaled = poisson.pmf(x, mu=self.mu) * self.size
+
+        return {
+            "pmfScaled": pmf_scaled.tolist(),
+            "histogram": histogram.tolist(),
+            "range": x.tolist(),
+        }
 
 
 class Distribution:
@@ -150,6 +170,7 @@ class Distribution:
             "bernoulli": Bernoulli,
             "binomial": Binomial,
             "normal": Normal,
+            "poisson": Poisson,
         }
 
         print("data", data)

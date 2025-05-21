@@ -5,6 +5,7 @@ import {
   BinomialSchema,
   NormalSchema,
   NumberListSchema,
+  PoissonSchema,
 } from "@/schemas/root";
 import axios from "axios";
 
@@ -76,7 +77,6 @@ export const getCentralTendency = async (data: NumberListSchema) => {
 };
 
 export const getDispersion = async (data: NumberListSchema) => {
-  console.log(data);
   const response = await axios({
     url: `${API_URL}/stats/find-dispersion`,
     method: "POST",
@@ -89,9 +89,8 @@ export const getDispersion = async (data: NumberListSchema) => {
 };
 
 export const getDistribution = async (
-  data: BernoulliSchema | BinomialSchema | NormalSchema
+  data: BernoulliSchema | BinomialSchema | NormalSchema | PoissonSchema
 ) => {
-  console.log(data);
   const response = await axios({
     url: `${API_URL}/stats/find-distribution`,
     method: "POST",

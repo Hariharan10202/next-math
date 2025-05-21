@@ -16,9 +16,10 @@ import dynamic from "next/dynamic";
 import { useEffect, useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import TwoBarGraphSkeleton from "../Skeletons/BernoulliSkeleton";
-import BernoulliForm from "./Bernoulli";
-import BinomialForm from "./Binomial";
-import NormalForm from "./Normal";
+import BernoulliForm from "./Forms/Bernoulli";
+import BinomialForm from "./Forms/Binomial";
+import NormalForm from "./Forms/Normal";
+import PoissonForm from "./Forms/Poisson";
 
 const BernoulliChart = dynamic(() => import("../Charts/BernoulliChart"), {
   ssr: false,
@@ -29,6 +30,11 @@ const BinomialChart = dynamic(() => import("../Charts/BinomialChart"), {
   loading: () => <TwoBarGraphSkeleton />,
 });
 const NormalDistributionChart = dynamic(() => import("../Charts/NormalChart"), {
+  ssr: false,
+  loading: () => <TwoBarGraphSkeleton />,
+});
+
+const PoissonChart = dynamic(() => import("../Charts/PoissonChart"), {
   ssr: false,
   loading: () => <TwoBarGraphSkeleton />,
 });
@@ -50,13 +56,18 @@ const defaultValuesMap = {
     distribution_type: "normal",
     average: 70,
     size: 10,
-    std: 10,
+    std: 1,
     bins: 10,
     density: true,
   },
+  poisson: {
+    distribution_type: "poisson",
+    average: 4,
+    size: 10,
+  },
 } satisfies Record<
-  "bernoulli" | "binomial" | "normal",
-  Partial<DistributionSchema>
+  "bernoulli" | "binomial" | "normal" | "poisson",
+  DistributionSchema
 >;
 
 function ChartLayout() {
@@ -71,8 +82,6 @@ function ChartLayout() {
     mutationKey: ["distribution"],
   });
 
-  console.log(data);
-
   const form = useForm<DistributionSchema>({
     resolver: zodResolver(distributionSchema),
     defaultValues: defaultValuesMap["bernoulli"],
@@ -86,9 +95,10 @@ function ChartLayout() {
       calculateDistribution(form.getValues());
       return;
     }
-    form.reset(defaultValuesMap[selected] ?? {});
-    calculateDistribution(defaultValuesMap[selected] ?? {});
-  }, [selected, calculateDistribution, form]);
+    const newDefaults = defaultValuesMap[selected];
+    form.reset(newDefaults);
+    calculateDistribution(form.getValues());
+  }, [selected, calculateDistribution]);
 
   const renderSelectedComponent = () => {
     switch (selected) {
@@ -98,8 +108,8 @@ function ChartLayout() {
         return <BinomialForm />;
       case "normal":
         return <NormalForm />;
-      //   case "poisson":
-      //     return <div>Poisson Distribution</div>;
+      case "poisson":
+        return <PoissonForm />;
       default:
         return null;
     }
@@ -109,24 +119,28 @@ function ChartLayout() {
     switch (selected) {
       case "bernoulli":
         return !isPending ? (
-          <BernoulliChart result={data?.result} />
+          <BernoulliChart result={data} />
         ) : (
           <TwoBarGraphSkeleton />
         );
       case "binomial":
         return !isPending ? (
-          <BinomialChart result={data?.result} />
+          <BinomialChart result={data} />
         ) : (
           <TwoBarGraphSkeleton />
         );
       case "normal":
         return !isPending ? (
-          <NormalDistributionChart result={data?.result} />
+          <NormalDistributionChart result={data} />
         ) : (
           <TwoBarGraphSkeleton />
         );
-      //   case "poisson":
-      //     return <div>Poisson Distribution</div>;
+      case "poisson":
+        return !isPending ? (
+          <PoissonChart result={data} />
+        ) : (
+          <TwoBarGraphSkeleton />
+        );
       default:
         return null;
     }

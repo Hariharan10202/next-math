@@ -1,7 +1,11 @@
 "use client";
 
 interface Props {
-  data?: string;
+  data?: {
+    mean: number;
+    median: number;
+    mode: number;
+  };
   isLoading: boolean;
   isError: boolean;
 }

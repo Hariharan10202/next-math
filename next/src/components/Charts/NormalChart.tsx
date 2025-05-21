@@ -31,7 +31,6 @@ const mergeData = (
   }
 
   for (const { x: px, y: py } of pdf_curve) {
-    // Try to find a close match
     const existing = merged.find(({ x }) => Math.abs(x - px) < binWidth);
     if (existing) {
       existing.pdf = py;
@@ -49,7 +48,7 @@ const NormalDistributionChart = ({ result }: NormalChartProps) => {
   useEffect(() => {
     const updateSize = () => {
       if (window.innerWidth < 640) {
-        setChartHeight(200);
+        setChartHeight(400);
       } else {
         setChartHeight(500);
       }
@@ -67,7 +66,9 @@ const NormalDistributionChart = ({ result }: NormalChartProps) => {
 
   return (
     <div>
-      <h2>Normal Distribution of Test Scores</h2>
+      <div className="p-4  sm:p-8">
+        <h2>Normal Distribution of Test Scores</h2>
+      </div>
       {hasData ? (
         <ResponsiveContainer width="100%" height={chartHeight}>
           <ComposedChart data={chartData}>
@@ -87,7 +88,7 @@ const NormalDistributionChart = ({ result }: NormalChartProps) => {
               allowDecimals={true}
             />
             <Tooltip />
-            <Legend verticalAlign="top" height={36} />
+            <Legend verticalAlign="top" height={66} />
             <Bar
               dataKey="histogram"
               fill="#8884d8"
