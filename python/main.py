@@ -15,7 +15,7 @@ NEXT_URL = os.getenv("NEXT_URL")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[NEXT_URL] if NEXT_URL else [],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
