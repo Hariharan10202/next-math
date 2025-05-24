@@ -8,6 +8,8 @@ import { DataTable } from "./DataTable/DataTable";
 import TableSkeleton from "./Skeletons/TableSkeleton";
 import { Input } from "./ui/input";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
+
 const UploadButton = () => {
   const [data, setData] = useState<FileUploadResponse>();
   const [file, setFile] = useState<File>();
@@ -15,7 +17,7 @@ const UploadButton = () => {
   const [isLoading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const lastProgress = useRef(0); // prevent excessive rerenders on upload progress
+  const lastProgress = useRef(0);
 
   const fetchPageData = useCallback(
     async (file: File, page: number, limit: number) => {
@@ -27,7 +29,7 @@ const UploadButton = () => {
       try {
         setLoading(true);
         const response = await axios<FileUploadResponse>({
-          url: `http://localhost:8000/api/upload`,
+          url: `${API_URL}/upload`,
           method: "POST",
           headers: {
             "Content-Type": "multipart/form-data",
