@@ -76,6 +76,7 @@ class Bernoulli:
         bernoulli_dist = bernoulli(self.p_mean)
         pmf = bernoulli_dist.pmf(np.unique(simulated_points))
         return {
+            "type": "bernoulli",
             "plotPoints": np.unique(simulated_points).tolist(),
             "dataPoints": pmf.tolist(),
         }
@@ -93,6 +94,7 @@ class Binomial:
         x = np.arange(1, self.nTrails + 1)
         pmf = binom_dist.pmf(x)
         return {
+            "type": "binomial",
             "plotPoints": x.tolist(),
             "dataPoints": pmf.tolist(),
         }
@@ -131,6 +133,7 @@ class Normal:
             {"x": round(x, 2), "y": round(y, 4)} for x, y in zip(x_vals, pdf_vals)
         ]
         return {
+            "type": "normal",
             "statistics": {
                 "mean": round(mean, 2),
                 "median": round(median, 2),
@@ -158,6 +161,7 @@ class Poisson:
         pmf_scaled = poisson.pmf(x, mu=self.mu) * self.size
 
         return {
+            "type": "poisson",
             "pmfScaled": pmf_scaled.tolist(),
             "histogram": histogram.tolist(),
             "range": x.tolist(),

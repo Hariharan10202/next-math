@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { distributionSchema, DistributionSchema } from "@/schemas/root";
+import { distributionSchema, DistributionSchema } from "@/schemas/input/root";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
@@ -98,7 +98,7 @@ function ChartLayout() {
     const newDefaults = defaultValuesMap[selected];
     form.reset(newDefaults);
     calculateDistribution(form.getValues());
-  }, [selected, calculateDistribution]);
+  }, [selected, calculateDistribution, form]);
 
   const renderSelectedComponent = () => {
     switch (selected) {
@@ -119,25 +119,49 @@ function ChartLayout() {
     switch (selected) {
       case "bernoulli":
         return !isPending ? (
-          <BernoulliChart result={data} />
+          <>
+            {data?.type === "bernoulli" ? (
+              <BernoulliChart result={data} />
+            ) : (
+              <p>No data found</p>
+            )}
+          </>
         ) : (
           <TwoBarGraphSkeleton />
         );
       case "binomial":
         return !isPending ? (
-          <BinomialChart result={data} />
+          <>
+            {data?.type === "binomial" ? (
+              <BinomialChart result={data} />
+            ) : (
+              <p>No data found</p>
+            )}
+          </>
         ) : (
           <TwoBarGraphSkeleton />
         );
       case "normal":
         return !isPending ? (
-          <NormalDistributionChart result={data} />
+          <>
+            {data?.type === "normal" ? (
+              <NormalDistributionChart result={data} />
+            ) : (
+              <p>No data found</p>
+            )}
+          </>
         ) : (
           <TwoBarGraphSkeleton />
         );
       case "poisson":
         return !isPending ? (
-          <PoissonChart result={data} />
+          <>
+            {data?.type === "poisson" ? (
+              <PoissonChart result={data} />
+            ) : (
+              <p>No data found</p>
+            )}
+          </>
         ) : (
           <TwoBarGraphSkeleton />
         );

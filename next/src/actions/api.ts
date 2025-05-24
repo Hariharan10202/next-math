@@ -6,7 +6,13 @@ import {
   NormalSchema,
   NumberListSchema,
   PoissonSchema,
-} from "@/schemas/root";
+} from "@/schemas/input/root";
+import {
+  centralTendencyOutputSchema,
+  dispersionOutputSchema,
+  distributionOutputSchema,
+  fileUploadResponseSchema,
+} from "@/schemas/output/root";
 import axios from "axios";
 
 const API_URL = process.env.API_URL ?? "";
@@ -68,24 +74,21 @@ export const getCentralTendency = async (data: NumberListSchema) => {
   const response = await axios({
     url: `${API_URL}/stats/find-central-tendency`,
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     data: data,
   });
-  return response.data;
+
+  const parsed = centralTendencyOutputSchema.safeParse(response.data);
+  return parsed.data;
 };
 
 export const getDispersion = async (data: NumberListSchema) => {
   const response = await axios({
     url: `${API_URL}/stats/find-dispersion`,
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     data: data,
   });
-  return response.data;
+  const parsed = dispersionOutputSchema.safeParse(response.data);
+  return parsed.data;
 };
 
 export const getDistribution = async (
@@ -94,10 +97,35 @@ export const getDistribution = async (
   const response = await axios({
     url: `${API_URL}/stats/find-distribution`,
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     data: data,
   });
-  return response.data;
+  const parsed = distributionOutputSchema.safeParse(response.data);
+  return parsed.data;
 };
+
+export async function uploadFileToBackend(
+  file: File,
+  page: number,
+  limit: number
+) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("page", String(page));
+  formData.append("limit", String(limit));
+
+  const response = await axios({
+    url: `${API_URL}/upload`,
+    method: "POST",
+    data: formData,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  const parsed = fileUploadResponseSchema.safeParse(response.data);
+  if (!parsed.success) {
+    throw new Error("Invalid response from backend");
+  }
+
+  return parsed.data;
+}

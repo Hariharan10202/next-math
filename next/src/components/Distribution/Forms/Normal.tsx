@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { NormalSchema } from "@/schemas/root";
+import { NormalSchema } from "@/schemas/input/root";
 
 const NormalForm = () => {
   const form = useFormContext<NormalSchema>();

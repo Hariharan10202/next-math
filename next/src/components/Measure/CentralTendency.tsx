@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { NumberListSchema, numberListSchema } from "@/schemas/root";
+import { NumberListSchema, numberListSchema } from "@/schemas/input/root";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -38,8 +38,6 @@ const CentralTendency = () => {
   function onSubmit(values: NumberListSchema) {
     calculateMean(values);
   }
-
-  console.log(centralTendency);
 
   return (
     <div className="text-black w-full flex flex-col items-center mx-auto">

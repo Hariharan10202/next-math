@@ -1,11 +1,12 @@
 "use client";
 
+import {
+  CentralTendencyOutputSchema,
+  DispersionOutputSchema,
+} from "@/schemas/output/root";
+
 interface Props {
-  data?: {
-    mean: number;
-    median: number;
-    mode: number;
-  };
+  data?: CentralTendencyOutputSchema | DispersionOutputSchema;
   isLoading: boolean;
   isError: boolean;
 }

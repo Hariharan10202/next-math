@@ -1,15 +1,17 @@
 import os
 
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from src.models.models import DistributionType, NumberList
+from src.utils.data.index import ParseData
 from src.utils.stats.index import CentralTendency, Dispersion, Distribution
 
 load_dotenv()
 app = FastAPI()
 
 NEXT_URL = os.getenv("NEXT_URL")
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -94,6 +96,22 @@ def read_root(data: DistributionType):
     dist = Distribution(data)
     result = dist.sample()
     return result
+
+
+@app.post("/api/upload")
+async def upload_file(
+    file: UploadFile,
+    page: int = Form(...),
+    limit: int = Form(...),
+):
+    file_bytes = await file.read()
+    parser = ParseData(file=file_bytes, filename=file.filename, page=page, limit=limit)
+
+    try:
+        parsed_result = parser.parse()
+        return parsed_result
+    except ValueError as e:
+        return {"error": str(e)}
 
 
 # @app.post("/api/utils/generate/random")

@@ -1,3 +1,4 @@
+import { NormalDistOutpuSchema } from "@/schemas/output/root";
 import React, { useEffect, useState } from "react";
 import {
   ComposedChart,
@@ -12,10 +13,7 @@ import {
 } from "recharts";
 
 interface NormalChartProps {
-  result: {
-    histogram: { x: GLfloat; y: GLfloat }[];
-    pdf_curve: { x: GLfloat; y: GLfloat }[];
-  };
+  result: NormalDistOutpuSchema;
 }
 
 const mergeData = (

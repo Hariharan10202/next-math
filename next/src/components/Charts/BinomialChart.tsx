@@ -1,5 +1,6 @@
 "use client";
 
+import { BernoulliAndBinomialOutputSchema } from "@/schemas/output/root";
 import { useEffect, useState } from "react";
 import {
   Bar,
@@ -13,10 +14,7 @@ import {
 } from "recharts";
 
 interface BarChartProps {
-  result: {
-    plotPoints: number[];
-    dataPoints: number[];
-  };
+  result: BernoulliAndBinomialOutputSchema;
 }
 
 export default function BinomialChart({ result }: BarChartProps) {
@@ -27,12 +25,14 @@ export default function BinomialChart({ result }: BarChartProps) {
   const [chartHeight, setChartHeight] = useState(500);
 
   useEffect(() => {
-    if (result) {
+    if (result.type === "binomial") {
       const processedData = result?.plotPoints?.map((point, index) => ({
         point,
         value: result.dataPoints[index],
       }));
       setTransformedData(processedData);
+    } else {
+      setTransformedData([]);
     }
   }, [result]);
 

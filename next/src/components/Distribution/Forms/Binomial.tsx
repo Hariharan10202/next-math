@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { BinomialSchema } from "@/schemas/root";
+import { BinomialSchema } from "@/schemas/input/root";
 import { useFormContext } from "react-hook-form";
 
 const BinomialForm = () => {

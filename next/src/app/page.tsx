@@ -3,10 +3,15 @@ import ChartLayout from "@/components/Distribution/ChartLayout";
 import Heading from "@/components/Heading";
 import CentralTendency from "@/components/Measure/CentralTendency";
 import Dispersion from "@/components/Measure/Dispersion";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Page = () => {
   return (
     <Container className="font-poppins font-bold w-full flex flex-col">
+      <Link href="/train-model">
+        <Button>Go to Model</Button>
+      </Link>
       <div>
         <Heading label="Probability of distribution" />
         <ChartLayout />

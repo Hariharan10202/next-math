@@ -1,21 +1,18 @@
+import { PoissonOutputSchema } from "@/schemas/output/root";
 import { useEffect, useState } from "react";
 import {
+  Bar,
+  ComposedChart,
+  Legend,
+  Line,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
-  Bar,
-  ComposedChart,
-  Line,
-  Legend,
 } from "recharts";
 
 interface BarChartProps {
-  result: {
-    pmfScaled: number[];
-    range: number[];
-    histogram: number[];
-  };
+  result: PoissonOutputSchema;
 }
 
 export default function PoissonChart({ result }: BarChartProps) {

@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { PoissonSchema } from "@/schemas/root";
+import { PoissonSchema } from "@/schemas/input/root";
 import { useFormContext } from "react-hook-form";
 
 const PoissonForm = () => {
