@@ -28,7 +28,7 @@ class ParseData:
         start_idx = (self.page) * self.limit
         end_idx = start_idx + self.limit
 
-        page_df = df.iloc[start_idx:end_idx].fillna("")
+        page_df = df.iloc[start_idx:end_idx].fillna("").infer_objects(copy=False)
         rows = page_df.to_dict(orient="records")
         columns = df.columns.tolist()
 
